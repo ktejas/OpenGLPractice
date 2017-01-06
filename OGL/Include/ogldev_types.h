@@ -20,7 +20,7 @@
 #define	OGLDEV_TYPES_H
 
 #ifndef WIN32
-#include <unistd.h>
+//#include <unistd.h>
 #endif
 
 typedef unsigned int uint;
