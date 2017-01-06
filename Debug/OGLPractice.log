@@ -1,19 +1,18 @@
-﻿Build started 1/5/2017 6:41:33 PM.
-     1>Project "C:\Users\KrishnaTeja\Documents\Visual Studio 2015\Projects\OGLPractice\OGLPractice.vcxproj" on node 2 (Build target(s)).
+﻿Build started 1/5/2017 7:10:04 PM.
+     1>Project "C:\Users\KrishnaTeja\Documents\Visual Studio 2015\Projects\OpenGLPractice\OGLPractice.vcxproj" on node 2 (Build target(s)).
      1>InitializeBuildStatus:
-         Creating "Debug\OGLPractice.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+         Touching "Debug\OGLPractice.tlog\unsuccessfulbuild".
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /I"C:\Users\KrishnaTeja\Documents\Visual Studio 2015\Projects\OGLPractice\OGL\Include\\" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
-         main.cpp
+         All outputs are up-to-date.
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\KrishnaTeja\Documents\Visual Studio 2015\Projects\OGLPractice\Debug\OGLPractice.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Users\KrishnaTeja\Documents\Visual Studio 2015\Projects\OGLPractice\OGL\Lib\\" freeglut.lib OpenGL32.lib vulkan.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG:FASTLINK /PDB:"C:\Users\KrishnaTeja\Documents\Visual Studio 2015\Projects\OGLPractice\Debug\OGLPractice.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /ENTRY:"mainCRTStartup" /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\KrishnaTeja\Documents\Visual Studio 2015\Projects\OGLPractice\Debug\OGLPractice.lib" /MACHINE:X86 Debug\main.obj
-         OGLPractice.vcxproj -> C:\Users\KrishnaTeja\Documents\Visual Studio 2015\Projects\OGLPractice\Debug\OGLPractice.exe
-         OGLPractice.vcxproj -> C:\Users\KrishnaTeja\Documents\Visual Studio 2015\Projects\OGLPractice\Debug\OGLPractice.pdb (Partial PDB)
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\KrishnaTeja\Documents\Visual Studio 2015\Projects\OpenGLPractice\Debug\OGLPractice.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Users\KrishnaTeja\Documents\Visual Studio 2015\Projects\OpenGLPractice\OGL\Lib\\" freeglut.lib glew32.lib OpenGL32.lib vulkan.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG:FASTLINK /PDB:"C:\Users\KrishnaTeja\Documents\Visual Studio 2015\Projects\OpenGLPractice\Debug\OGLPractice.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /ENTRY:"mainCRTStartup" /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\KrishnaTeja\Documents\Visual Studio 2015\Projects\OpenGLPractice\Debug\OGLPractice.lib" /MACHINE:X86 Debug\main.obj
+         OGLPractice.vcxproj -> C:\Users\KrishnaTeja\Documents\Visual Studio 2015\Projects\OpenGLPractice\Debug\OGLPractice.exe
+         OGLPractice.vcxproj -> C:\Users\KrishnaTeja\Documents\Visual Studio 2015\Projects\OpenGLPractice\Debug\OGLPractice.pdb (Partial PDB)
        FinalizeBuildStatus:
          Deleting file "Debug\OGLPractice.tlog\unsuccessfulbuild".
          Touching "Debug\OGLPractice.tlog\OGLPractice.lastbuildstate".
-     1>Done Building Project "C:\Users\KrishnaTeja\Documents\Visual Studio 2015\Projects\OGLPractice\OGLPractice.vcxproj" (Build target(s)).
+     1>Done Building Project "C:\Users\KrishnaTeja\Documents\Visual Studio 2015\Projects\OpenGLPractice\OGLPractice.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.48
+Time Elapsed 00:00:00.20
