@@ -1,0 +1,14 @@
+﻿Build started 1/5/2017 6:30:14 PM.
+     1>Project "C:\Users\KrishnaTeja\Documents\Visual Studio 2015\Projects\OGLPractice\OGLPractice.vcxproj" on node 2 (Build target(s)).
+     1>InitializeBuildStatus:
+         Touching "x64\Debug\OGLPractice.tlog\unsuccessfulbuild".
+       ClCompile:
+         All outputs are up-to-date.
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\KrishnaTeja\Documents\Visual Studio 2015\Projects\OGLPractice\x64\Debug\OGLPractice.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Users\KrishnaTeja\Documents\Visual Studio 2015\Projects\OGLPractice\Lib\\" freeglut.lib opengl32.lib vulkan.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG:FASTLINK /PDB:"C:\Users\KrishnaTeja\Documents\Visual Studio 2015\Projects\OGLPractice\x64\Debug\OGLPractice.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\KrishnaTeja\Documents\Visual Studio 2015\Projects\OGLPractice\x64\Debug\OGLPractice.lib" /MACHINE:X64 x64\Debug\main.obj
+     1>LINK : fatal error LNK1104: cannot open file 'freeglut.lib'
+     1>Done Building Project "C:\Users\KrishnaTeja\Documents\Visual Studio 2015\Projects\OGLPractice\OGLPractice.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:00.08
