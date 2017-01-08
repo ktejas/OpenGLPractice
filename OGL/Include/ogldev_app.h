@@ -20,7 +20,7 @@
 #define OGLDEV_APP_H
 
 #ifndef WIN32
-#include "freetypeGL.h"
+#include "FreetypeGL\freetypeGL.h"
 #endif
 
 

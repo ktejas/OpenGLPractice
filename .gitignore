@@ -19,6 +19,7 @@
 *.opensdf
 /ipch
 *.VC.db
+*.VC.opendb
 *.VC.VC.opendb
 
 # Profiling
