@@ -10,10 +10,99 @@
 //Variables
 GLuint VBO;
 GLuint gScaleLocation;
-const char * pVSFileName = "Assets\\Shaders\\vertex.shader";
-const char * pFSFileName = "Assets\\Shaders\\fragment.shader";
+GLuint gWorldLocation;
+const char * pVSFileName = "Assets/Shaders/vertex.shader";
+const char * pFSFileName = "Assets/Shaders/fragment.shader";
 
 //Functions
+static void AddShader(GLuint ShaderProgram, const char * pShaderSource, GLenum ShaderType)
+{
+	GLuint ShaderObj = glCreateShader(ShaderType);
+	if (!ShaderObj)
+	{
+		fprintf(stderr, "Error creating shader object of type %d.\n", ShaderType);
+		exit(1);
+	}
+
+	const GLchar * p[1];
+	p[0] = pShaderSource;
+	GLint Lengths[1];
+	Lengths[0] = strlen(pShaderSource);
+	glShaderSource(ShaderObj, 1, p, Lengths);
+
+	glCompileShader(ShaderObj);
+	
+	GLint Success = 0;
+	GLchar InfoLog[1024] = { 0 };
+	glGetShaderiv(ShaderObj, GL_COMPILE_STATUS, &Success);
+	if (!Success)
+	{
+		glGetShaderInfoLog(ShaderObj, sizeof(InfoLog), NULL, InfoLog);
+		fprintf(stderr, "Error compiling shader: %s of type %d.\n", InfoLog, ShaderType);
+		exit(1);
+	}
+
+	glAttachShader(ShaderProgram, ShaderObj);
+}
+
+void CompileShaders()
+{
+	string vs, fs;
+
+	GLuint ShaderProgram = glCreateProgram();
+	if (!ShaderProgram)
+	{
+		fprintf(stderr, "Error creating Shader Program.\n");
+		exit(1);
+	}
+
+	if (!ReadFile(pVSFileName, vs))
+	{
+		fprintf(stderr, "Error reading Vertex Shader.");
+		exit(1);
+	}
+
+	if (!ReadFile(pFSFileName, fs))
+	{
+		fprintf(stderr, "Error reading Fragment Shader.");
+		exit(1);
+	}
+
+	AddShader(ShaderProgram, vs.c_str(), GL_VERTEX_SHADER);
+	AddShader(ShaderProgram, fs.c_str(), GL_FRAGMENT_SHADER);
+
+	glLinkProgram(ShaderProgram);
+
+	GLint Success = 0;
+	GLchar InfoLog[1024] = { 0 };
+	glGetProgramiv(ShaderProgram, GL_LINK_STATUS, &Success);
+	if (!Success)
+	{
+		glGetProgramInfoLog(ShaderProgram, sizeof(InfoLog), NULL, InfoLog);
+		fprintf(stderr, "Error linking Shader Program: %s.\n", InfoLog);
+		exit(1);
+	}
+
+	glValidateProgram(ShaderProgram);
+
+	glGetProgramiv(ShaderProgram, GL_VALIDATE_STATUS, &Success);
+	if (!Success)
+	{
+		glGetProgramInfoLog(ShaderProgram, sizeof(InfoLog), NULL, InfoLog);
+		fprintf(stderr, "Error validating shader program: %s.\n", InfoLog);
+		exit(1);
+	}
+
+	glUseProgram(ShaderProgram);
+
+	//Getting the Uniform Variables
+	gScaleLocation = glGetUniformLocation(ShaderProgram, "gScale");
+	assert(gScaleLocation != 0xFFFFFFFF);
+
+	gWorldLocation = glGetUniformLocation(ShaderProgram, "gWorld");
+	assert(gWorldLocation != 0xFFFFFFFF);
+}
+
 void CreateVertexBuffer()
 {
 	Vector3f vertices[3];
@@ -30,11 +119,21 @@ void RenderSceneCB()
 {
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	//Uniform Variables
-	static float Scale = 0.0f;
-	Scale += 0.01f;
-	glUniform1f(gScaleLocation, sinf(Scale));
+	//Update the scale
+	static float scale = 0.0f;
+	scale += 0.02f;
+	glUniform1f(gScaleLocation, sinf(scale));
 
+	//Translation Matrix
+	Matrix4f world;
+	world.m[0][0] = 1.0f; world.m[0][1] = 0.0f; world.m[0][2] = 0.0f; world.m[0][3] = cosf(scale);
+	world.m[1][0] = 0.0f; world.m[1][1] = 1.0f; world.m[1][2] = 0.0f; world.m[1][3] = 0.0f;
+	world.m[2][0] = 0.0f; world.m[2][1] = 0.0f; world.m[2][2] = 1.0f; world.m[2][3] = 0.0f;
+	world.m[3][0] = 0.0f; world.m[3][1] = 0.0f; world.m[3][2] = 0.0f; world.m[3][3] = 1.0f;
+
+	glUniformMatrix4fv(gWorldLocation, 1, GL_TRUE, &world.m[0][0]);
+
+	//Draw a Triangle
 	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
@@ -50,92 +149,6 @@ void InitializeGlutCallbacks()
 	glutIdleFunc(RenderSceneCB);
 }
 
-void AddShader(GLuint ShaderProgram, const char * pShaderText, GLenum ShaderType)
-{
-	GLuint ShaderObj = glCreateShader(ShaderType);
-
-	if (!ShaderObj)
-	{
-		fprintf(stderr, "Error: Can't create Shader Object of type %d.", ShaderType);
-		exit(1);
-	}
-
-	const GLchar * p[1];
-	p[0] = pShaderText;
-	GLint Lengths[1];
-	Lengths[0] = strlen(pShaderText);
-	glShaderSource(ShaderObj, 1, p, Lengths);
-
-	glCompileShader(ShaderObj);
-
-	GLint Success = 0;
-	GLchar ErrorLog[1024];
-	glGetShaderiv(ShaderObj, GL_COMPILE_STATUS, &Success);
-	if (!Success)
-	{
-		glGetShaderInfoLog(ShaderObj, sizeof(ErrorLog), NULL, ErrorLog);
-		fprintf(stderr, "Error: Can't Get Shader Object of type %d: %s.\n", ShaderType, ErrorLog);
-		exit(1);
-	}
-
-	glAttachShader(ShaderProgram, ShaderObj);
-}
-
-void CompileShaders()
-{
-	string vs;
-	string fs;
-
-	GLuint ShaderProgram = glCreateProgram();
-	if (!ShaderProgram)
-	{
-		fprintf(stderr, "Error: Can't create Shader Program.");
-		exit(1);
-	}
-
-	if (!ReadFile(pVSFileName, vs))
-	{
-		fprintf(stderr, "Error: Reading Vertex Shader.\n");
-		exit(1);
-	}
-
-	if (!ReadFile(pFSFileName, fs))
-	{
-		fprintf(stderr, "Error: Reading Fragment Shader.\n");
-		exit(1);
-	}
-
-	AddShader(ShaderProgram, vs.c_str(), GL_VERTEX_SHADER);
-	AddShader(ShaderProgram, fs.c_str(), GL_FRAGMENT_SHADER);
-
-	glLinkProgram(ShaderProgram);
-
-	GLint Success = 0;
-	GLchar ErrorLog[1024] = { 0 };
-	glGetProgramiv(ShaderProgram, GL_LINK_STATUS, &Success);
-	if (!Success)
-	{
-		glGetProgramInfoLog(ShaderProgram, sizeof(ErrorLog), NULL, ErrorLog);
-		fprintf(stderr, "Error: Can't Link Shader Program: %s.\n", ErrorLog);
-		exit(1);
-	}
-
-	glValidateProgram(ShaderProgram);
-	
-	glGetProgramiv(ShaderProgram, GL_VALIDATE_STATUS, &Success);
-	if (!Success)
-	{
-		glGetProgramInfoLog(ShaderProgram, sizeof(ErrorLog), NULL, ErrorLog);
-		fprintf(stderr, "Error: Can't validate shader program: %s.\n", ErrorLog);
-		exit(1);
-	}
-
-	glUseProgram(ShaderProgram);
-
-	glGetUniformLocation(gScaleLocation, "gScale");
-	assert(gScaleLocation != 0xFFFFFFFF);
-}
-
 int main(int argc, char ** argv)
 {
 	//Initialization
@@ -144,21 +157,21 @@ int main(int argc, char ** argv)
 	glutInitWindowSize(512, 512);
 	glutInitWindowPosition(100, 100);
 
-	glutCreateWindow("OGL Practice 04");
+	glutCreateWindow("OGL Practice 05");
 
 	GLenum glewResult = glewInit();
 	if (glewResult != GLEW_OK)
 	{
-		fprintf(stderr, "Error: Can't initialize GLEW: %s.\n", glewGetErrorString(glewResult));
+		fprintf(stderr, "Error initializing GLEW: %s.\n", glewGetErrorString(glewResult));
 		exit(1);
 	}
 
 	printf("OpenGL Version: %s.\n", glGetString(GL_VERSION));
 
-	//Draw
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-
 	InitializeGlutCallbacks();
+
+	//Draw
+	glClearColor(1.0f, 1.0f, 0.0f, 1.0f);
 
 	CreateVertexBuffer();
 
